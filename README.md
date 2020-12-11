@@ -2,4 +2,4 @@
 ![Logo](/Images/HealthAI_Logo.png)
 
 # Complete Broucher
-<a href="/HealthAI.md" class="button icon search">Click Here</a>
+<a href="https://github.com/AkashSrivastava1721/HealthAI_Imagine_Cup_2021/wiki" class="button icon search">Click Here</a>
