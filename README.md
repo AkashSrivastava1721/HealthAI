@@ -2,4 +2,4 @@
 ![Logo](/Images/HealthAI_Logo.png)
 
 # Complete Broucher
-[Click Here](/HealthAI.md)
+<a href="/HealthAI.md" class="button icon search">Click Here</a>
