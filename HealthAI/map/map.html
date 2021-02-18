@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <head>
+     <title>Map Search</title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css">
+     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    
+
+    <script>
+        var map, datasource; 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function GetMap() {
+            //Point the Azure Maps domain to the US Azure Gov Cloud domain.
+			
+
+			//Initialize a map instance.
+            //******************************//
+            map = new atlas.Map('myMap', {
+                
+				
+		            //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'aTcny9cy1D8Wc28S4xjl_t49JZ7qHnxQf2HlLVq1A7M'
+                }
+            });
+            //******************************//
+
+            //Wait until the map resources are ready.
+           
+            map.events.add('ready', function () {
+                                    //Request the user's location
+                                                    navigator.geolocation.getCurrentPosition(function (position) {
+
+                                                        //Create a data source and add it to the map.
+                                                        datasource = new atlas.source.DataSource();
+                                                        map.sources.add(datasource);
+                                                
+                                                        //Add the users position to the data source.
+                                                        var userPosition = [position.coords.longitude, position.coords.latitude];
+                                                        datasource.add(new atlas.data.Point(userPosition));
+
+                                                        //Add a layer for rendering the users position as a symbol.
+                                                        /* map.layers.add(new atlas.layer.SymbolLayer(datasource,null,{
+                                                            iconOptions:{
+                                                                image:'pin-round-darkblue',
+                                                                anchor: 'center',
+                                                                
+                                                            }
+                                                        });
+                                                        ) */
+
+                                                        map.layers.add(new atlas.layer.SymbolLayer(datasource,null,{
+                                                            iconOptions:{
+                                                                image:'pin-round-darkblue',
+                                                                anchor: 'center',
+                                                                
+                                                            }
+                                                        }));
+
+                                                        //Center the map on the users position.
+                                                        map.setCamera({
+                                                            center: userPosition,
+                                                            zoom: 15
+                                                        });
+                                                    }, function (error) {
+                                                        //If an error occurs when trying to access the users position information, display an error message.
+                                                        switch (error.code) {
+
+                                                                    case error.PERMISSION_DENIED:
+                                                                        alert('User denied the request for Geolocation.');
+                                                                        break;
+                                                                    case error.POSITION_UNAVAILABLE:
+                                                                        alert('Position information is unavailable.');
+                                                                        break;
+                                                                    case error.TIMEOUT:
+                                                                        alert('The request to get user position timed out.');
+                                                                        break;
+                                                                    case error.UNKNOWN_ERROR:
+                                                                        alert('An unknown error occurred.');
+                                                                        break;
+                                                                }
+                                                        });
+            });
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    </script>
+    <style>
+         html,
+         body {
+             width: 100%;
+             height: 100%;
+             padding: 10px;
+             margin: 0;
+         }
+
+         #myMap {
+             width: 100%;
+             height: 100%;
+         }
+     </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+</body></html>

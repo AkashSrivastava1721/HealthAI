@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hot Spot</title>
+
+    <meta charset="utf-8" />
+	
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with the title and description values of the symbol that was clicked." />
+    
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type='text/javascript'>
+        var map, datasource, popup;
+
+        //Define an HTML template for a custom popup content laypout.
+        //var popupTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+
+        var myCustomJson = {
+            results: [
+                {
+                    title: 'Pin 1',
+                    
+                    lat: 45.0001,
+                    lon: -110.0001,
+                    val:40
+                },
+                {
+                    title: 'Pin 2',
+                    
+                    lat: 14.40,
+                    lon: 77.20,
+                    val:85
+                },
+                {
+                    title: 'Pin 3',
+                    
+                    lat: 15.40,
+                    lon: 77.20,
+                    val:20
+                },
+                {
+                    title: 'Pin 4',
+                    
+                    lat: 14.40,
+                    lon: 10.20,
+                    val:55
+                },
+                {
+                    title: 'Pin 5',
+                    
+                    lat: 29.40,
+                    lon: 37.20,
+                    val:96
+                },
+                {
+                    title: 'Pin 6',
+                    
+                    lat: 29.06,
+                    lon: 76.04,
+                    val:96
+                },
+                {
+                    title: 'Pin 7',
+                    
+                    lat: 23.74,
+                    lon: 91.74,
+                    val:72
+                },
+                {
+                    title: 'Pin 8',
+                    
+                    lat: 26.24,
+                    lon: 92.53,
+                    val:67
+                },
+                {
+                    title: 'Pin 9',
+                    
+                    lat: 22.309,
+                    lon: 72.136,
+                    val:26
+                },
+                {
+                    title: 'Pin 10',
+                    
+                    lat: 27.39,
+                    lon: 73.43,
+                    val:28
+                }
+            ]
+        };
+        
+        
+
+        function GetMap() {
+            //Point the Azure Maps domain to the US Azure Gov Cloud domain.
+			
+
+			//Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center:[30,21],
+                zoom: 1.5,
+                language: 'en-US',
+                
+				
+		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'gLrOpZOO5KtgjO60pYw_9x6DAZJaawf_3dJWBnFkK1E'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                
+                //Loop through all results in the custom JSON object can create Point features from them.
+                var points = [];
+
+               
+
+                if (myCustomJson && myCustomJson.results && myCustomJson.results.length > 0) {
+
+                    for (var i = 0; i < myCustomJson.results.length; i++) {
+
+                        //Create a position object from the lon and lat values.
+                        var position = new atlas.data.Position(myCustomJson.results[i].lon, myCustomJson.results[i].lat);
+
+                        //Create a Point feature and pass in the result object as the properties so that we can access them later if needed.
+                        var point = new atlas.data.Feature(new atlas.data.Point(position), myCustomJson.results[i]);
+
+                        points.push(point);
+                    }
+                }
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+
+                var iconPromises=[
+                map.imageSprite.add('green_icon',"https://i.ibb.co/Zg8fTJy/pin-8-24.png"),
+                map.imageSprite.add('orange_icon',"https://i.ibb.co/Ks0Y1Z8/pin-8-24-1.png"),
+                map.imageSprite.add('red_icon',"https://i.ibb.co/wyQ93JT/pin-8-24-2.png")
+                //map.imageSprite.add('user',"https://i.ibb.co/GRnbdfn/icons8-user-location-24.png")
+                ]
+                map.sources.add(datasource);
+
+                //Add point data to the data source.
+                datasource.add(points);
+                //-----------------------------------------------------//
+                Promise.all(iconPromises).then(function () {
+                        var symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions:{
+                                                                image:[
+                                                                    'step',
+                                                                    ['get','val'],
+                                                                    'green_icon',
+                                                                    40,'orange_icon',
+                                                                    80,'red_icon',
+                                                                    
+                                                                ],
+                                                                
+
+                                                                anchor: 'center',
+                                                                allowOverlap:true
+                                                            }
+                });
+
+                map.layers.add(symbolLayer);
+                })
+                //-------------------------------------------------//
+                //Create a layer that defines how to render the points on the map.
+                
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                
+
+                //Add a click event to the symbol layer.
+                
+                
+            });
+        }
+
+        //-----------------------map view--------------------------------//
+        
+                
+        //...........................hospitals..............................//
+
+        function hosp(){
+
+            //change zoom
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+        function showPosition(position){
+                    var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+                    // Use subscriptionKeyCredential to create a pipeline
+                    var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
+                    var searchURL = new atlas.service.SearchURL(pipeline);
+                    var query =  'multi-speciality hospital';
+                    var radius = 10000;
+                    
+                    
+                    var userdatasource= new atlas.source.DataSource();
+                    map.sources.add(userdatasource);
+                    
+                    var userPosition = [position.coords.longitude, position.coords.latitude];
+                    userdatasource.add(new atlas.data.Point(userPosition));
+                    ////
+                    //----------------------------------------------------show position when user clicks-//
+                    var iconPromisess=[
+                            map.imageSprite.add('user',"https://i.ibb.co/0GqNV97/personal-location.png"),
+                            map.imageSprite.add('hospital',"https://i.ibb.co/1qtFPfQ/hospital-32.png")]
+                    Promise.all(iconPromisess).then(function () {
+                        var userLayer=new atlas.layer.SymbolLayer(userdatasource, null, {
+                        iconOptions:{
+                                                                    image:'user',
+                                                                    
+
+                                                                    anchor: 'center',
+                                                                //  overlap:true
+                                                                    
+                                                                }
+                    });
+                    
+                    map.layers.add(userLayer); 
+                    })
+                    /////////////////////////////////
+                    map.setCamera({
+                                    center: userPosition,
+                                    zoom: 12
+                                });
+                    searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
+                        limit: 10,
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        radius: radius
+                    }).then((results) => {
+
+                        // Extract GeoJSON feature collection from the response and add it to the datasource
+                        var data = results.geojson.getFeatures();
+                        datasourcee.add(data);
+
+                        // set camera to bounds to show the results
+                        /*map.setCamera({
+                            bounds: data.bbox,
+                            zoom: 2
+                        });*/
+                        //Create a popup but leave it closed so we can update it and display it later.
+                        var popup = new atlas.Popup();
+
+                        //Add a mouse over event to the result layer and display a popup when this event fires.
+                        map.events.add('mouseover', resultLayer, showPopup);
+
+                        function showPopup(e) {
+                        //Get the properties and coordinates of the first shape that the event occurred on.
+
+                        var p = e.shapes[0].getProperties();
+                        var position = e.shapes[0].getCoordinates();
+
+                        //Create HTML from properties of the selected result.
+                        var html = `
+                        <div style="padding:5px">
+                            <div><b>${p.poi.name}</b></div>
+                            <div>${p.address.freeformAddress}</div>
+                            <div>Distance:${Math.floor(p.dist)} mtrs</div>
+                            
+                        </div>`;
+
+                        //Update the content and position of the popup.
+                        popup.setPopupOptions({
+                            content: html,
+                            position: position
+                        });
+
+                        //Open the popup.
+                        popup.open(map);
+                    }
+                        
+                    });
+                    datasourcee = new atlas.source.DataSource();
+                    map.sources.add(datasourcee);
+
+                    //Add a layer for rendering point data.
+                    var resultLayer = new atlas.layer.SymbolLayer(datasourcee, null, {
+                        iconOptions: {
+                            image: 'hospital',
+                            anchor: 'center',
+                            //allowOverlap: true
+                        },
+                        textOptions: {
+                            anchor: "top"
+                        }
+
+                    });
+
+                    map.layers.add(resultLayer); }
+        //..............................hospitals............................//
+        
+        
+    </script>
+    <style>
+         html,
+         body {
+             width: 100%;
+             height: 100%;
+             padding: 0;
+             margin: 0;
+         }
+
+         #myMap {
+             width: 100%;
+             height: 100%;
+         }
+
+         .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 10px;
+            background-color: white;
+            padding: 10px;
+            margin-top:45px;
+        }
+
+        .legend .color-box {
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .square_btn {
+            display: inline-block;
+            padding: 0.5em 1em;
+            margin-left: 13em;
+            text-decoration: none;
+            color: #67c5ff;
+            border: solid 2px #67c5ff;
+            border-radius: 3px;
+            transition: .4s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .square_btn:hover {
+            background: #67c5ff;
+            color: white;
+        }
+     </style>
+</head>
+<body onload="GetMap()">
+    <!-- Header -->
+      <header id="header">
+        <a class="logo" href="user_data.html">Hot Spot</a>
+        <nav id="nav">
+            <a href="../index.html">Home</a>
+            <a href="../health/health.html">Health Monitor</a>
+            <a href="user_data.html">Hot Spot</a>
+            <a href="../chatbot/index.html">AI Doctor</a>
+        </nav>
+      </header>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+    <div class="legend">
+        <table>
+            
+            <tr>
+                <td>
+                    <a href="https://imgbb.com/"><img src="https://i.ibb.co/wyQ93JT/pin-8-24-2.png" alt="pin-8-24-2" border="0"></a>
+                </td>
+                <td>Severe > 80%</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://imgbb.com/"><img src="https://i.ibb.co/Ks0Y1Z8/pin-8-24-1.png" alt="pin-8-24-1" border="0"></a>
+                </td>
+                <td>Moderate < 80% </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://imgbb.com/"><img src="https://i.ibb.co/Zg8fTJy/pin-8-24.png" alt="pin-8-24" border="0"></a>
+                </td>
+                <td>Mild < 40%</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div style="clear:both;padding-left:600px;padding-top:30px">
+        
+        
+    <a href="#" class="square_btn" onclick="hosp()">Nearby Hospitals</a>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div class="bingwidget" id="bing" data-type="covid19_map" data-market="en-us" data-language="en-us"></div>
+  
+<script src="bootstrap.answer.js" async=""></script>
+    
+</body>
+</html>
