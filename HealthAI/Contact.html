@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+    <style>
+        body{
+		background-color: #25274d;
+	}
+	.contact{
+		padding: 4%;
+		height: 400px;
+	}
+	.col-md-3{
+		background: #ff9b00;
+		padding: 4%;
+		border-top-left-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+	}
+	.contact-info{
+		margin-top:10%;
+	}
+	.contact-info img{
+		margin-bottom: 15%;
+	}
+	.contact-info h2{
+		margin-bottom: 10%;
+	}
+	.col-md-9{
+		background: #fff;
+		padding: 3%;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
+	}
+	.contact-form label{
+		font-weight:600;
+	}
+	.contact-form button{
+		background: #25274d;
+		color: #fff;
+		font-weight: 600;
+		width: 25%;
+	}
+	.contact-form button:focus{
+		box-shadow:none;
+    }
+    .fa {
+        padding: 20px;
+        font-size: 30px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        }
+        .fa-facebook {
+        background: #3B5998;
+        color: white;
+        }
+        .fa-twitter {
+        background: #55ACEE;
+        color: white;
+        }
+        .fa-linkedin {
+        background: #007bb5;
+        color: white;
+        }
+        .fa-instagram {
+        background: #125688;
+        color: white;
+        }
+    </style>
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <body>
+            <div class="container contact">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="contact-info">
+                            <a href="index.html" class="">Home</a><br><br>
+                            <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image"/>
+                            <h2>Contact Us</h2>
+                            <b><p>We will try to revert back as soon as possible!</p></b>
+                            <br>
+                            <br>
+                            <br>
+                            <footer>
+                                <h2>Follow Us</h2>
+                                <a href="#" class="fa fa-facebook"></a>
+                                <a href="#" class="fa fa-twitter"></a>
+                                <a href="#" class="fa fa-linkedin"></a>
+                                <a href="#" class="fa fa-instagram"></a>
+                            </footer>
+                            <style>
+                                .copyright
+                                {
+                                    text-align: center;
+                                }
+                            </style>
+                            <div class="copyright">
+                                &copy; Team HealthAI
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="contact-form">
+                            <form action="#" method="POST">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="fname">First Name:</label>
+                                    <div class="col-sm-10">          
+                                      <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-2" for="lname">Last Name:</label>
+                                    <div class="col-sm-10">          
+                                      <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-2" for="email">Email:</label>
+                                    <div class="col-sm-10">
+                                      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-2" for="comment">Comment:</label>
+                                    <div class="col-sm-10">
+                                      <textarea class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">        
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                      <button type="submit" class="btn btn-default">Submit</button>
+                                    </div>
+                                  </div>
+                              </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </head>
+</html>
